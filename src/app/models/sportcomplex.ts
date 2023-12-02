@@ -5,6 +5,7 @@ export interface SportComplex {
     city: string
     address: string
     description: string
+    operatingHours: string
     rating: number
   }
   
