@@ -1,8 +1,10 @@
 import { Button, Container, Menu } from 'semantic-ui-react';
-
+import { useStore } from '../stores/store';
 
 export default function NavBar()
 {
+    const {sportComplexStore} = useStore();
+
     return (
         <Menu inverted fixed='top'>
             <Container>
@@ -12,7 +14,7 @@ export default function NavBar()
                 </Menu.Item>
                 <Menu.Item name = 'Sports complexes'/>
                 <Menu.Item>
-                    <Button positive content = 'Registration'/>
+                    <Button onClick={()=>sportComplexStore.openForm()} positive content = 'New Sport Comlex'/>
                 </Menu.Item>
             </Container>
         </Menu>
