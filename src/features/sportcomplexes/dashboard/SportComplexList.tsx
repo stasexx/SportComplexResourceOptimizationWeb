@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useState } from "react";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 
 export default observer(function SportComplexList()
 {
@@ -28,7 +29,7 @@ export default observer(function SportComplexList()
                                 <div>{sportComplex.city}, {sportComplex.address}</div>
                             </Item.Description>
                             <Item.Extra>
-                                <Button onClick={() => sportComplexStore.selectSportComplex(sportComplex.id)} floated='right' content='View' color='blue' />
+                                <Button as={Link} to={`/sportcomplexes/${sportComplex.id}`} floated='right' content='View' color='blue' />
                                 <Button 
                                     name = {sportComplex.id}
                                     loading = {loading && target === sportComplex.id}
