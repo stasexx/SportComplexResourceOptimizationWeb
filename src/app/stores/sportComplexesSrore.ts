@@ -20,7 +20,9 @@ export default class SportComplexStore
         this.setLoadingInitial(true);
         try{
             const sportComplexes = await agent.SportComplexesRequests.list();
-            this.sportComplexes = sportComplexes;
+            runInAction(()=>{
+                this.sportComplexes = sportComplexes;
+            })
             this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
@@ -28,25 +30,36 @@ export default class SportComplexStore
         }
     }
 
+    loadSportComplex = async (id: string) => {
+        let sportComplex = this.getSportComplex(id);
+        if(sportComplex) {
+            this.selectedSportComplex = sportComplex;
+            return sportComplex;
+        }
+        else {
+            this.setLoadingInitial(true);
+            try {
+                sportComplex = await agent.SportComplexesRequests.details(id);
+                runInAction(()=>{
+                    this.selectedSportComplex = sportComplex
+                })
+                this.sportComplexRegistry.set(sportComplex.id, sportComplex);
+                this.setLoadingInitial(false);
+                return sportComplex;
+            } catch (error) {
+                console.log(error);
+                this.setLoadingInitial(false)
+            }
+        }
+    }
+
+
+    private getSportComplex = (id: string) => {
+        return this.sportComplexRegistry.get(id);
+    }
+
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
-    }
-
-    selectSportComplex = (id: string) => {
-        this.selectedSportComplex = this.sportComplexes.find(a=>a.id == id)
-    }
-
-    cancelSelectedSportCompex = () => {
-        this.selectedSportComplex = undefined;
-    }
-
-    openForm = (id?: string) => {
-        id ? this.selectSportComplex(id) : this.cancelSelectedSportCompex();
-        this.editMode = true;
-    }
-
-    closeForm = () => {
-        this.editMode = false;
     }
 
     createSportComplex = async (sportComplex: SportComplex) => {
@@ -89,7 +102,6 @@ export default class SportComplexStore
             await agent.SportComplexesRequests.delete(id);
             runInAction(() => {
                 this.sportComplexes = [...this.sportComplexes.filter(a => a.id !== id)];
-                if(this.selectedSportComplex?.id === id) this.cancelSelectedSportCompex;
                 this.loading = false;
             })
         } catch (error) {

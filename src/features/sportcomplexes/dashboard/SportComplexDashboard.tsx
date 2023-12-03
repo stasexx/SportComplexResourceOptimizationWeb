@@ -1,16 +1,21 @@
-import React from "react";
-import { Grid} from "semantic-ui-react";
+import React, { useEffect } from "react";
+import { Grid } from "semantic-ui-react";
 import SportComplexList from "./SportComplexList";
-import SportComplexDetails from "../details/SportComplexDetails";
-import SportComplexForm from "../form/SportComplexForm";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import LoadingComponents from "../../../app/layout/LoadingComponents";
 
 
 export default observer (function SportComplexDashboard(){
 
     const {sportComplexStore} = useStore();
-    const {selectedSportComplex, editMode} = sportComplexStore;
+
+    useEffect(() => 
+    {
+        sportComplexStore.loadSportComplexes();
+    }, [sportComplexStore])
+
+    if (sportComplexStore.loadingInitial) return <LoadingComponents content='Loading app'/>
 
     return(
         <Grid>
@@ -18,10 +23,6 @@ export default observer (function SportComplexDashboard(){
                 <SportComplexList />
             </Grid.Column>
             <Grid.Column width='6'>
-                {selectedSportComplex && !editMode &&
-                <SportComplexDetails />}
-                {editMode &&
-                <SportComplexForm />}
             </Grid.Column>
         </Grid>
     )

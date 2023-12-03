@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useStore } from "../../../app/stores/store";
 import LoadingComponents from "../../../app/layout/LoadingComponents";
+import { observer } from "mobx-react-lite";
+import { Link, useParams } from "react-router-dom";
 
 async function getImageUrlById(id: string): Promise<string> {
     try {
@@ -15,27 +17,35 @@ async function getImageUrlById(id: string): Promise<string> {
   }
 
 
-export default function SportComplexDetails(){
+export default observer (function SportComplexDetails(){
     
     const {sportComplexStore} = useStore();
-    const {selectedSportComplex: sportComplex, openForm, cancelSelectedSportCompex} = sportComplexStore;
+    const {selectedSportComplex: sportComplex, loadSportComplex, loadingInitial} = sportComplexStore;
     const [imageUrl, setImageUrl] = useState<string>('');
+    const {id} = useParams()
 
     useEffect(() => {
-      if (!sportComplex) return <LoadingComponents/>;
-        const fetchImageUrl = async () => {
-          try {
-            const url = await getImageUrlById(sportComplex.id);
-            setImageUrl(url);
-          } catch (error) {
-            // Обробка помилок, якщо потрібно
-          }
-        };
+      if (id) {
+        loadSportComplex(id);
+      }
     
-        fetchImageUrl();
-      }, [sportComplex.id]);
+      if (!sportComplex) {
+        return;
+      }
+    
+      const fetchImageUrl = async () => {
+        try {
+          const url = await getImageUrlById(id);
+          setImageUrl(url);
+        } catch (error) {
+          // Обробка помилок, якщо потрібно
+        }
+      };
+    
+      fetchImageUrl();
+    }, [id, loadSportComplex, sportComplex, sportComplex?.id]);
 
-    if (!sportComplex) return <LoadingComponents/>;
+    if (loadingInitial || !sportComplex) return <LoadingComponents/>;
 
     return(
         <Card>
@@ -50,11 +60,11 @@ export default function SportComplexDetails(){
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
-                <Button.Group withs='2'>
-                    <Button onClick={() => openForm(sportComplex.id)} basic color='pink' content='Edit' />
-                    <Button onClick={cancelSelectedSportCompex} basic color='blue' content='Cancel' />
+                <Button.Group withs='7'>
+                    <Button as={Link} to={`/update/sportcomplexes/${sportComplex.id}`} color='pink' content='Edit' />
+                    <Button as={Link} to={"/sportcomplexes"} color='blue' content='Cancel' />
                 </Button.Group>
             </Card.Content>
         </Card>
     )
-}
+})
