@@ -1,15 +1,20 @@
-import React from "react";
-import { SportComplex } from "../../../app/models/sportcomplex";
+import React, { SyntheticEvent, useState } from "react";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props 
+export default observer(function SportComplexList()
 {
-    sportComplexes: SportComplex[];
-    selectSportComplex: (id: string) => void;
-}
+    const {sportComplexStore} = useStore();
+    const {deleteSportComplex, sportComplexes, loading} = sportComplexStore;
 
-export default function SportComplexList({sportComplexes, selectSportComplex}: Props)
-{
+    const [target, setTarget] = useState('');
+
+    function handleSportComplexDelete(e: SyntheticEvent<HTMLButtonElement>, id: string){
+        setTarget(e.currentTarget.name)
+        deleteSportComplex(id);
+    }
+
     return (
         <Segment>
             <Item.Group divided>
@@ -23,7 +28,15 @@ export default function SportComplexList({sportComplexes, selectSportComplex}: P
                                 <div>{sportComplex.city}, {sportComplex.address}</div>
                             </Item.Description>
                             <Item.Extra>
-                                <Button onClick={() => selectSportComplex(sportComplex.id)} floated='right' content='View' color='blue' />
+                                <Button onClick={() => sportComplexStore.selectSportComplex(sportComplex.id)} floated='right' content='View' color='blue' />
+                                <Button 
+                                    name = {sportComplex.id}
+                                    loading = {loading && target === sportComplex.id}
+                                    onClick={(e) => handleSportComplexDelete(e, sportComplex.id)} 
+                                    floated='right' 
+                                    content='Delete' 
+                                    color='red' 
+                                />
                                 <Label basic content = {sportComplex.rating}/>
                             </Item.Extra>
                         </Item.Content>
@@ -32,4 +45,4 @@ export default function SportComplexList({sportComplexes, selectSportComplex}: P
             </Item.Group>
         </Segment>
     )
-}
+})

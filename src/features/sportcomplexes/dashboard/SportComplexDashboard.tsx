@@ -1,44 +1,28 @@
 import React from "react";
 import { Grid} from "semantic-ui-react";
-import { SportComplex } from "../../../app/models/sportcomplex";
 import SportComplexList from "./SportComplexList";
 import SportComplexDetails from "../details/SportComplexDetails";
 import SportComplexForm from "../form/SportComplexForm";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props 
-{
-    sportComplexes: SportComplex[];
-    selectedSportComplex: SportComplex | undefined;
-    selectSportComplex: (id: string) => void;
-    cancelSelectSportCompex: () => void;
-    editMode: boolean;
-    openForm: (id: string) => void;
-    closeForm: () => void;
-    submitting: boolean;
-    createOrEdit: (sportComplex: SportComplex) => void;
-}
 
-export default function SportComplexDashboard({sportComplexes, selectedSportComplex,
-     selectSportComplex, cancelSelectSportCompex, editMode, openForm, closeForm, submitting, createOrEdit}: Props){
+export default observer (function SportComplexDashboard(){
+
+    const {sportComplexStore} = useStore();
+    const {selectedSportComplex, editMode} = sportComplexStore;
+
     return(
         <Grid>
             <Grid.Column width='10'>
-                <SportComplexList sportComplexes={sportComplexes} selectSportComplex = {selectSportComplex} />
+                <SportComplexList />
             </Grid.Column>
             <Grid.Column width='6'>
                 {selectedSportComplex && !editMode &&
-                <SportComplexDetails 
-                    sportComplex={selectedSportComplex} 
-                    cancelSelectSportCompex={cancelSelectSportCompex}
-                    openForm={openForm}
-                />}
+                <SportComplexDetails />}
                 {editMode &&
-                <SportComplexForm closeForm={closeForm} 
-                sportComplex={selectedSportComplex}
-                createOrEdit = {createOrEdit}
-                submitting = {submitting}
-                 />}
+                <SportComplexForm />}
             </Grid.Column>
         </Grid>
     )
-}
+})

@@ -1,7 +1,8 @@
 import { Button, Card, Image } from "semantic-ui-react";
-import { SportComplex } from "../../../app/models/sportcomplex";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useStore } from "../../../app/stores/store";
+import LoadingComponents from "../../../app/layout/LoadingComponents";
 
 async function getImageUrlById(id: string): Promise<string> {
     try {
@@ -13,19 +14,15 @@ async function getImageUrlById(id: string): Promise<string> {
     }
   }
 
-interface Props 
-{
-    sportComplex: SportComplex;
-    cancelSelectSportCompex: () => void;
-    openForm: (id: string) => void;
-}
 
-export default function SportComplexDetails({sportComplex, cancelSelectSportCompex, openForm}: Props){
+export default function SportComplexDetails(){
     
+    const {sportComplexStore} = useStore();
+    const {selectedSportComplex: sportComplex, openForm, cancelSelectedSportCompex} = sportComplexStore;
     const [imageUrl, setImageUrl] = useState<string>('');
-    console.log("ID"+sportComplex.id)
 
     useEffect(() => {
+      if (!sportComplex) return <LoadingComponents/>;
         const fetchImageUrl = async () => {
           try {
             const url = await getImageUrlById(sportComplex.id);
@@ -37,6 +34,8 @@ export default function SportComplexDetails({sportComplex, cancelSelectSportComp
     
         fetchImageUrl();
       }, [sportComplex.id]);
+
+    if (!sportComplex) return <LoadingComponents/>;
 
     return(
         <Card>
@@ -53,7 +52,7 @@ export default function SportComplexDetails({sportComplex, cancelSelectSportComp
             <Card.Content extra>
                 <Button.Group withs='2'>
                     <Button onClick={() => openForm(sportComplex.id)} basic color='pink' content='Edit' />
-                    <Button onClick={cancelSelectSportCompex} basic color='blue' content='Cancel' />
+                    <Button onClick={cancelSelectedSportCompex} basic color='blue' content='Cancel' />
                 </Button.Group>
             </Card.Content>
         </Card>
