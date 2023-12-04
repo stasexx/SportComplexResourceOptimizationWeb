@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { SportComplex } from '../models/sportcomplex';
+import { User, UserFormValues } from '../models/user';
+import { store } from '../stores/store';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -8,6 +10,12 @@ const sleep = (delay: number) => {
 }
 
 axios.defaults.baseURL = 'http://localhost:5002';
+
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if(token && config.headers) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 axios.interceptors.response.use(async response => {
     try {
@@ -40,9 +48,16 @@ const SportComplexesRequests = {
     delete: (id: string) => axios.delete<void>(`/sportcomplexes/delete/${id}`)
 }
 
+const Account = {
+    current: () => requests.get('/users/get'),
+    login: (user: UserFormValues) => requests.post<User>('/users/login', user),
+    register: (user: UserFormValues) => requests.post('users/login', user),
+}
+
 const agent = 
 {
-    SportComplexesRequests
+    SportComplexesRequests,
+    Account
 }
 
 export default agent;
