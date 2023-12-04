@@ -2,6 +2,9 @@ import axios, { AxiosResponse } from 'axios';
 import { SportComplex } from '../models/sportcomplex';
 import { User, UserFormValues } from '../models/user';
 import { store } from '../stores/store';
+import { Service } from '../models/service';
+import { Equipment } from '../models/equipment';
+import { Reservation, ReservationSlots } from '../models/reservation';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -41,23 +44,42 @@ const requests =
 
 
 const SportComplexesRequests = {
-    list: () => requests.getMapping<SportComplex[]>('/sportcomplexes?pageNumber=1&pageSize=20'),
+    list: () => requests.getMapping<Service[]>('/sportcomplexes?pageNumber=1&pageSize=20'),
     details: (id: string) => requests.get<SportComplex>(`/sportcomplexes/${id}`),
     create: (ownerId: string, sportComplex: SportComplex) => axios.post<void>(`sportcomplexes/create/${ownerId}`, sportComplex),
     update: (sportComplex: SportComplex) => axios.put<void>('/sportcomplexes/update', sportComplex),
     delete: (id: string) => axios.delete<void>(`/sportcomplexes/delete/${id}`)
 }
 
+const ServicesRequests = {
+    list: (id: string) => requests.getMapping<SportComplex[]>(`/services/visible/${id}?pageNumber=1&pageSize=20`),
+}
+
+const EquipmentsRequests = {
+    list: (id: string) => requests.getMapping<Equipment[]>(`/equipments/visible/${id}?pageNumber=1&pageSize=20`),
+    status: (id: string) => requests.get(`/equipments/status/${id}`)
+}
+
+const ReservationRequests = {
+    slots: (id: string, dateTime1: string, dateTime2: string, interval: number ) => 
+    requests.get<ReservationSlots>(`/reservations/slots/${id}/${dateTime1}/to/${dateTime2}/${interval}`),
+    list: (id: string) => requests.getMapping<ReservationSlots[]>(`/equipments/visible/${id}?pageNumber=1&pageSize=20`),
+    create: (reservation: Reservation) => axios.post<void>('/reservations', reservation),
+}
+
 const Account = {
     current: () => requests.get('/users/get'),
     login: (user: UserFormValues) => requests.post<User>('/users/login', user),
-    register: (user: UserFormValues) => requests.post('users/login', user),
+    register: (user: UserFormValues) => requests.post<User>('users/register', user),
 }
 
 const agent = 
 {
     SportComplexesRequests,
-    Account
+    Account,
+    ServicesRequests,
+    EquipmentsRequests,
+    ReservationRequests
 }
 
 export default agent;

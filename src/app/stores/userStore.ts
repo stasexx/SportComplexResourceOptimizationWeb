@@ -31,10 +31,32 @@ export default class UserStore {
 
     }
 
+    
+    register = async (creds: UserFormValues) =>{
+        // eslint-disable-next-line no-useless-catch
+        try{
+            const user = await agent.Account.register(creds);
+            runInAction(()=>{
+                this.user = user;
+                user.roles = user.roles || [];
+                user.roles.push("User")
+            })
+            router.navigate('/')
+            console.log(user);
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
     logout = () => {
         store.commonStore.setToken(null);
         this.user = null;
     }
+
+    getCurrentUserId = (): string | null => {
+        return this.user?.id ?? null;
+      };
 
     getUser = async () => {
         try{

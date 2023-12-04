@@ -1,10 +1,11 @@
-import { Button, Card, Image } from "semantic-ui-react";
+import { Grid} from "semantic-ui-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useStore } from "../../../app/stores/store";
 import LoadingComponents from "../../../app/layout/LoadingComponents";
 import { observer } from "mobx-react-lite";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import SportComplexDetailedHeader from "./SportComplexDetailedHeader";
 
 async function getImageUrlById(id: string): Promise<string> {
     try {
@@ -48,23 +49,10 @@ export default observer (function SportComplexDetails(){
     if (loadingInitial || !sportComplex) return <LoadingComponents/>;
 
     return(
-        <Card>
-            <Image src={imageUrl} alt="Sport Complex" />
-            <Card.Content>
-                <Card.Header>{sportComplex.name}</Card.Header>
-                <Card.Meta>
-                    <span>{sportComplex.email}</span>
-                </Card.Meta>
-                <Card.Description>
-                    {sportComplex.description}
-                </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-                <Button.Group withs='7'>
-                    <Button as={Link} to={`/update/sportcomplexes/${sportComplex.id}`} color='pink' content='Edit' />
-                    <Button as={Link} to={"/sportcomplexes"} color='blue' content='Cancel' />
-                </Button.Group>
-            </Card.Content>
-        </Card>
+        <Grid>
+          <Grid.Column width={10}>
+            <SportComplexDetailedHeader sportComplexProps={sportComplex} />
+          </Grid.Column>
+        </Grid>
     )
 })

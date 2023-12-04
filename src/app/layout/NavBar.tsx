@@ -45,10 +45,9 @@ export default observer(function NavBar()
                 ) : (
                         <Menu.Item position='right'>
                         <Button as={NavLink} to='/login' positive content='Login' />
+                        <Button as={NavLink} to='/register' positive content='Sign Up' />
                         </Menu.Item>
                 )}
-
-                
             </Container>
         </Menu>
     )
