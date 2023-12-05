@@ -17,11 +17,13 @@ export default observer(function NavBar()
                 {isLoggedIn ? (
                 user?.roles.includes('Owner') ? (
                     <Menu.Item>
-                        <Button as={NavLink} to='/create/sportcomplexes' color='pink' content='New Sport Comlex' />
+                        <Button as={NavLink} to='/create/sportcomplexes' color='pink' content='New Sport Comlex' style={{ marginRight: '40px' }} />
+                        <Button as={NavLink} to='/create/sportcomplexes' color='violet' content='View My Spot Complexes' />
                     </Menu.Item>
                 ) : (
                     user?.roles.includes('User') ? (
                         <Menu.Item>
+                            <Button as={NavLink} to={`statistic/userUsages/${user.id}`} color='blue' content='My Statistic' />
                         </Menu.Item>
                         ) : null
                     )
@@ -44,7 +46,7 @@ export default observer(function NavBar()
                     </Menu.Item>
                 ) : (
                         <Menu.Item position='right'>
-                        <Button as={NavLink} to='/login' positive content='Login' />
+                        <Button as={NavLink} to='/login' positive content='Login ' style={{ marginRight: '40px' }} />
                         <Button as={NavLink} to='/register' positive content='Sign Up' />
                         </Menu.Item>
                 )}

@@ -5,6 +5,7 @@ import CommonStore from "./commonStore";
 import ServiceStore from "./servicesStore";
 import EquipmentStore from "./equipmentStore";
 import ReservationStore from "./reservationStore";
+import StatisticStore from "./statisticStore";
 
 
 interface Store{
@@ -14,6 +15,7 @@ interface Store{
     serviceStore: ServiceStore
     equipmentStore: EquipmentStore
     reservationStore: ReservationStore
+    statisticStore: StatisticStore
 }
 
 export const store: Store = {
@@ -22,7 +24,8 @@ export const store: Store = {
    commonStore: new CommonStore(),
    serviceStore: new ServiceStore(),
    equipmentStore: new EquipmentStore(),
-   reservationStore: new ReservationStore()
+   reservationStore: new ReservationStore(),
+   statisticStore: new StatisticStore()
 }
 
 export const StoreContext = createContext(store);

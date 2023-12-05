@@ -3,6 +3,7 @@ import { Button, Item, Label, Loader, Segment } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import ReservationModal from "../modal/ReservationModal";
+import { NavLink } from "react-router-dom";
 
 export default observer(function ServiceList() {
   const { equipmentStore } = useStore();
@@ -74,6 +75,14 @@ export default observer(function ServiceList() {
                 color="pink"
                 onClick={() => handleReservationClick(equipment.id)}
               />
+              <Button
+                as={NavLink} 
+                to={`statistic/equipmentUsages/${equipment.id}`}
+                floated="right"
+                content="Statistic"
+                color="blue"
+              />
+
             </Item.Content>
           </Item>
         ))}

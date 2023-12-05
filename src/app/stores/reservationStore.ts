@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction} from 'mobx'
 import agent from '../api/agent';
-import { Reservation, ReservationSlots } from '../models/reservation';
+import { Reservation} from '../models/reservation';
 
 export default class ReservationStore
 {

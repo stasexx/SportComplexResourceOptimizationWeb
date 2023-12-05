@@ -20,6 +20,7 @@ async function getImageUrlById(id: string): Promise<string> {
 
 export default observer (function SportComplexDetails(){
     
+  
     const {sportComplexStore} = useStore();
     const {selectedSportComplex: sportComplex, loadSportComplex, loadingInitial} = sportComplexStore;
     const [imageUrl, setImageUrl] = useState<string>('');

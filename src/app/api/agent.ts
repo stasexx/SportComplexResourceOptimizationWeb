@@ -5,6 +5,7 @@ import { store } from '../stores/store';
 import { Service } from '../models/service';
 import { Equipment } from '../models/equipment';
 import { Reservation, ReservationSlots } from '../models/reservation';
+import { UserUsageStatistic } from '../models/statistics';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -73,13 +74,19 @@ const Account = {
     register: (user: UserFormValues) => requests.post<User>('users/register', user),
 }
 
+const Statistic = {
+    userUsageStatistic: (id: string) => requests.get(`/statistics/usages/${id}`),
+    equipmentReservationStatistic: (id: string) => requests.get(`/statistics/reservations/hours/${id}`)
+}
+
 const agent = 
 {
     SportComplexesRequests,
     Account,
     ServicesRequests,
     EquipmentsRequests,
-    ReservationRequests
+    ReservationRequests,
+    Statistic
 }
 
 export default agent;

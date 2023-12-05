@@ -36,6 +36,7 @@ interface Props {
 }
 
 export default observer (function ActivityDetailedHeader({sportComplexProps}: Props) {
+    const {userStore: {user, logout,isLoggedIn}} = useStore();
     const {sportComplexStore} = useStore();
     const {selectedSportComplex: sportComplex, loadSportComplex, loadingInitial} = sportComplexStore;
     const [imageUrl, setImageUrl] = useState<string>('');
@@ -89,12 +90,27 @@ export default observer (function ActivityDetailedHeader({sportComplexProps}: Pr
                     </Item.Group>
                 </Segment>
             </Segment>
-            <Segment clearing attached='bottom'>
-                <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
-                <Button as={Link} to={`/update/sportcomplexes/${sportComplexProps.id}`} color='pink' content='Edit'>
-                    Manage Event
-                </Button>
-            </Segment>
+            {isLoggedIn ? (
+                user?.roles.includes('Owner') || user?.roles.includes('Admin') ? (
+                  <Segment clearing attached='bottom'>
+                  <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
+                  <Button as={Link} to={`/update/sportcomplexes/${sportComplexProps.id}`} color='pink' content='Edit'>
+                      Manage Sport Complex
+                  </Button>
+              </Segment>
+                ) : (
+                    user?.roles.includes('User') ? (
+                      <Segment clearing attached='bottom'>
+                      <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
+                  </Segment>
+                        ) : null
+                    )
+                ) : (
+                  <Segment clearing attached='bottom'>
+                  <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
+              </Segment>
+                )}
+                
             <Segment clearing attached='bottom'>
                 <p>
                     Description: <strong>{sportComplexProps.description}</strong>

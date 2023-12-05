@@ -4,7 +4,7 @@ import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
-export default observer(function SportComplexList()
+export default observer(function PersonalSportComplexList()
 {
     const {userStore: {user, logout,isLoggedIn}} = useStore();
     const {sportComplexStore} = useStore();

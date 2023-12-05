@@ -8,6 +8,9 @@ import LoginForm from "../../features/users/LoginForm";
 import ServiceDashboard from "../../features/services/dashboard/ServiceDashboard";
 import EquipmentDashboard from "../../features/equipments/dashboard/EquipmentDashboard";
 import RegisterForm from "../../features/users/RegisterForm";
+import ProfilePage from "../../features/profiles/ProfilePage";
+import UserUsageStatistic from "../../features/users/UserUsageStatistic";
+import EquipmentStatisticPage from "../../features/equipments/statistic/EquipmentStatisticPage";
 
 export const routes: RouteObject[] = [
     {
@@ -22,7 +25,10 @@ export const routes: RouteObject[] = [
             {path: 'sportcomplexes/:id/services', element: <ServiceDashboard />},
             {path: 'sportcomplexes/:id/services/:id', element: <EquipmentDashboard />},
             {path: 'login', element: <LoginForm />},
-            {path: 'register', element: <RegisterForm />}
+            {path: 'register', element: <RegisterForm />},
+            {path: 'profiles/:username', element: <ProfilePage />},
+            {path: 'statistic/userUsages/:userId', element: <UserUsageStatistic />},
+            {path: 'sportcomplexes/:id/services/:id/statistic/equipmentUsages/:id', element: <EquipmentStatisticPage />}
         ]
     }
 ]
