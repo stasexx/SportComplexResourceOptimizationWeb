@@ -1,12 +1,13 @@
 import {makeAutoObservable, runInAction} from 'mobx'
 import agent from '../api/agent';
-import { Equipment } from '../models/equipment';
+import { Equipment, EquipmentWithouStatus } from '../models/equipment';
 
 export default class EquipmentStore
 {
     equipments: Equipment[] = [];
     equipmentRegistry = new Map<string, Equipment>()
-    selectedEquipment:  Equipment | undefined = undefined;
+    selectedEquipment:  EquipmentWithouStatus | undefined = undefined;
+    equipmentWithouStatus: EquipmentWithouStatus[] = [];
     editMode = false;
     loading = false;
     loadingInitial = false;
@@ -52,4 +53,22 @@ export default class EquipmentStore
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     }
+
+    createEquipment = async (equipment: EquipmentWithouStatus, userId: string, serviceId: string) => {
+      this.loading = true;
+      try{
+          await agent.EquipmentsRequests.create(equipment, userId, serviceId);
+          runInAction(()=>{
+              this.equipmentWithouStatus.push(equipment);
+              this.selectedEquipment = equipment;
+              this.editMode = false;
+              this.loading = false;
+          })
+      } catch (error) {
+          console.log(error);
+          runInAction(() => {
+              this.loading = false;
+          })
+      }
+  }
 }

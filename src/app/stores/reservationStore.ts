@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction} from 'mobx'
 import agent from '../api/agent';
-import { Reservation} from '../models/reservation';
+import { Reservation, UserReservations} from '../models/reservation';
 
 export default class ReservationStore
 {
@@ -8,6 +8,7 @@ export default class ReservationStore
     reservationSlots: string[] = []
     reservationRegistry = new Map<string, Reservation>()
     selectedReservation:  Reservation | undefined = undefined;
+    userReservations: UserReservations[] = [];
     editMode = false;
     loading = false;
     loadingInitial = false
@@ -23,6 +24,21 @@ export default class ReservationStore
             const reservation = await agent.EquipmentsRequests.list(id);
             runInAction(()=>{
                 this.reservations = reservation;
+            })
+            console.log(reservation)
+            this.setLoadingInitial(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoadingInitial(false);
+        }
+    }
+
+    loadUserReservation = async (id: string) => {
+        this.setLoadingInitial(true);
+        try{
+            const reservation = await agent.ReservationRequests.userReservations(id);
+            runInAction(()=>{
+                this.userReservations = reservation;
             })
             console.log(reservation)
             this.setLoadingInitial(false);

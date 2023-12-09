@@ -8,3 +8,8 @@ export interface EquipmentUsage {
     hour: number
     reservationCount: number
   }
+
+export interface ServiceUsage {
+    equipmentName: string
+    reservationCount: number
+  }

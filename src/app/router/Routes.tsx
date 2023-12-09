@@ -11,6 +11,10 @@ import RegisterForm from "../../features/users/RegisterForm";
 import ProfilePage from "../../features/profiles/ProfilePage";
 import UserUsageStatistic from "../../features/users/UserUsageStatistic";
 import EquipmentStatisticPage from "../../features/equipments/statistic/EquipmentStatisticPage";
+import ServiceStatisticPage from "../../features/services/statistic/ServiceStatisticPage";
+import UserDashboard from "../../features/users/dashboard/UserDashboard";
+import UserReservationsDashboard from "../../features/users/reservations/dashboard/UserReservationsDashboard";
+import EquipmentForm from "../../features/equipments/form/EquipmentForm";
 
 export const routes: RouteObject[] = [
     {
@@ -23,12 +27,16 @@ export const routes: RouteObject[] = [
             {path: 'create/sportcomplexes', element: <SportComplexForm key="create" />},
             {path: 'update/sportcomplexes/:id', element: <SportComplexForm key="update" />},
             {path: 'sportcomplexes/:id/services', element: <ServiceDashboard />},
-            {path: 'sportcomplexes/:id/services/:id', element: <EquipmentDashboard />},
+            {path: 'sportcomplexes/:id/services/:seviceId', element: <EquipmentDashboard />},
             {path: 'login', element: <LoginForm />},
             {path: 'register', element: <RegisterForm />},
             {path: 'profiles/:username', element: <ProfilePage />},
             {path: 'statistic/userUsages/:userId', element: <UserUsageStatistic />},
-            {path: 'sportcomplexes/:id/services/:id/statistic/equipmentUsages/:id', element: <EquipmentStatisticPage />}
+            {path: 'sportcomplexes/:id/services/:id/serviceUsage/:id', element: <ServiceStatisticPage />},
+            {path: 'sportcomplexes/:id/services/:seviceId/statistic/equipmentUsages/:id', element: <EquipmentStatisticPage />},
+            {path: 'users', element: <UserDashboard />},
+            {path: 'reservation/:id', element: <UserReservationsDashboard />},
+            {path: 'sportcomplexes/:id/services/:seviceId/newEquipment', element: <EquipmentForm />}
         ]
     }
 ]

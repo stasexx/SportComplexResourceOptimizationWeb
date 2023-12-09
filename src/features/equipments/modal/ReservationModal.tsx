@@ -28,7 +28,7 @@ export default observer(function ReservationModal({
       const userId = userStore.getCurrentUserId();
   
       if (!userId) {
-        // Обробка випадку, коли userId недоступний (користувач не увійшов в систему)
+        // Handling the case when userId is not available (the user is not logged in)
         console.error("UserId is not available. User may not be logged in.");
         return;
       }
@@ -55,7 +55,7 @@ export default observer(function ReservationModal({
   
       const [startHours, startMinutes] = startTime.split(":");
       currentDate.setHours(Number(startHours), Number(startMinutes), 0);
-      const startFormattedDateTime = currentDate.toISOString(); // використовуйте toLocaleString
+      const startFormattedDateTime = currentDate.toISOString();
   
       const [endHours, endMinutes] = endTime.split(":");
       currentDate.setHours(Number(endHours), Number(endMinutes), 0);
@@ -110,7 +110,6 @@ export default observer(function ReservationModal({
     <Modal open={open} onClose={onClose}>
       <Modal.Header>Select Reservation Time</Modal.Header>
       <Modal.Content>
-        {/* Вводьте час початку та кінця інтервалу */}
         <Input
           type="time"
           label="Start Time"
@@ -124,7 +123,7 @@ export default observer(function ReservationModal({
           onChange={(e) => setEndTime(e.target.value)}
         />
 
-        {/* Випадаючий список для вибору тривалості резервації */}
+        {/* Drop-down list for choosing the duration of the reservation */}
         <Dropdown
           placeholder="Select Duration"
           fluid
@@ -137,22 +136,22 @@ export default observer(function ReservationModal({
           onChange={(_, data) => setSelectedDuration(data.value as number)}
         />
 
-        {/* Кнопка для завантаження слотів */}
+        {/* Button to upload slots */}
         <Button onClick={handleLoadSlots} disabled={!startTime || !endTime}>
           Load Reservation Slots
         </Button>
 
-        {/* Випадаючий список для відображення слотів */}
+        {/* Drop down list to display slots */}
         <Dropdown
-  placeholder="Select Reservation Slot"
-  fluid
-  selection
-  options={reservationStore.reservationSlots.map((slot) => ({
-    text: `${slot}`,
-    value: slot,
-  }))}
-  onChange={handleSlotChange}
-/>
+          placeholder="Select Reservation Slot"
+          fluid
+          selection
+          options={reservationStore.reservationSlots.map((slot) => ({
+          text: `${slot}`,
+          value: slot,
+          }))}
+          onChange={handleSlotChange}
+        />
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={onClose}>Cancel</Button>

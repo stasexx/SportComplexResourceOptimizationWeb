@@ -1,11 +1,12 @@
 import {makeAutoObservable, runInAction} from 'mobx'
 import agent from '../api/agent';
-import { EquipmentUsage, UserUsageStatistic } from '../models/statistics';
+import { EquipmentUsage, ServiceUsage, UserUsageStatistic } from '../models/statistics';
 
 export default class StatisticStore
 {
     userUsageStatistic: UserUsageStatistic[] = [];
-    equipmentUsage: EquipmentUsage[] = []
+    equipmentUsage: EquipmentUsage[] = [];
+    serviceUsage: ServiceUsage[] = [];
     loading = false;
     loadingInitial = false
 
@@ -41,6 +42,20 @@ export default class StatisticStore
             this.setLoadingInitial(false);
         }
     }
+
+    loadServiceUsageStatistic = async (id: string, dateTime1: string, dateTime2: string) => {
+        this.setLoadingInitial(true);
+        try {
+          const statistic = await agent.Statistic.serviceDataInervalStatistics(id, dateTime1, dateTime2);
+          runInAction(() => {
+            this.serviceUsage = statistic;
+          });
+          this.setLoadingInitial(false);
+        } catch (error) {
+          console.log(error);
+          this.setLoadingInitial(false);
+        }
+      }
 
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;

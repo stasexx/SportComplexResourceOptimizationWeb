@@ -62,10 +62,10 @@ export default class SportComplexStore
         this.loadingInitial = state;
     }
 
-    createSportComplex = async (sportComplex: SportComplex) => {
+    createSportComplex = async (sportComplex: SportComplex, ownerId: string) => {
         this.loading = true;
         try{
-            await agent.SportComplexesRequests.create("6549006cb058a274ca012abc", sportComplex);
+            await agent.SportComplexesRequests.create(ownerId, sportComplex);
             runInAction(()=>{
                 this.sportComplexes.push(sportComplex);
                 this.selectedSportComplex = sportComplex;

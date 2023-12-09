@@ -4,9 +4,11 @@ import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import ReservationModal from "../modal/ReservationModal";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default observer(function ServiceList() {
-  const { equipmentStore } = useStore();
+  const { t } = useTranslation();
+  const { equipmentStore, userStore } = useStore();
   const {
     equipments,
     loading,
@@ -22,12 +24,10 @@ export default observer(function ServiceList() {
 
   const handleReservationClick = (equipmentId: string) => {
     setSelectedEquipmentId(equipmentId);
-    console.log("Selected Time:", equipmentId);
     setModalOpen(true);
   };
 
   const handleConfirmReservation = (selectedTime: Date) => {
-    // Обробка підтвердження резервації
     console.log("Selected Time:", selectedTime);
   };
 
@@ -43,15 +43,12 @@ export default observer(function ServiceList() {
   };
 
   useEffect(() => {
-    // Викликати функцію при першому відкритті сторінки
     loadStatusSequentially();
 
-    // Запустити перевірку кожні 30 секунд
     const intervalId = setInterval(() => {
       loadStatusSequentially();
     }, 30000);
 
-    // Очистити інтервал при виході з компоненту
     return () => clearInterval(intervalId);
   }, [equipments, loadEquipmentStatus]);
 
@@ -65,24 +62,42 @@ export default observer(function ServiceList() {
               {equipment.equipmentStatus === undefined ? (
                 <Loader active inline="centered" />
               ) : (
-                <Label style={{ marginLeft: "10px" }} color={equipment.equipmentStatus ? "green" : "red"}>
-                  {equipment.equipmentStatus ? "Online" : "Offline"}
+                <Label style={{ marginLeft: "10px" }} color={equipment.equipmentStatus ? "red" : "green"}>
+                  {equipment.equipmentStatus ? t('equipmentList.busy') : t('equipmentList.free')}
                 </Label>
               )}
               <Button
                 floated="right"
-                content="Create Reservation"
+                content={t('equipmentList.createReservation')}
                 color="pink"
                 onClick={() => handleReservationClick(equipment.id)}
               />
-              <Button
-                as={NavLink} 
-                to={`statistic/equipmentUsages/${equipment.id}`}
-                floated="right"
-                content="Statistic"
-                color="blue"
-              />
-
+              {userStore.isLoggedIn && userStore.user?.roles.includes('Owner') && (
+                              <Button
+                              as={NavLink} 
+                              to={`statistic/equipmentUsages/${equipment.id}`}
+                              floated="right"
+                              content={t('equipmentList.statistic')}
+                              color="blue"
+                            />
+              )}
+              {/* Умовний рендерінг кнопки "Update" для ролі "Owner" */}
+              {userStore.isLoggedIn && userStore.user?.roles.includes('Owner') && (
+                <Button
+                  floated="right"
+                  content={t('equipmentList.update')}
+                  color="orange"
+                  onClick={() => handleReservationClick(equipment.id)}
+                />
+              )}
+              {userStore.isLoggedIn && (userStore.user?.roles.includes('Owner') || userStore.user?.roles.includes('Admin')) && (
+                <Button
+                  floated="right"
+                  content={t('equipmentList.delete')}
+                  color="red"
+                  onClick={() => handleReservationClick(equipment.id)}
+                />
+              )}
             </Item.Content>
           </Item>
         ))}

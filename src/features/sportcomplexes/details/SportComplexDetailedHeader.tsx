@@ -81,7 +81,7 @@ export default observer (function ActivityDetailedHeader({sportComplexProps}: Pr
                                     content={sportComplexProps.name}
                                     style={{color: 'white'}}
                                 />
-                                <p>{sportComplexProps.rating}</p>
+                                <p>Rating: {sportComplexProps.rating}</p>
                                 <p>
                                     Address <strong>{sportComplexProps.city}, {sportComplexProps.address}</strong>
                                 </p>
@@ -91,7 +91,7 @@ export default observer (function ActivityDetailedHeader({sportComplexProps}: Pr
                 </Segment>
             </Segment>
             {isLoggedIn ? (
-                user?.roles.includes('Owner') || user?.roles.includes('Admin') ? (
+                user?.roles.includes('Owner') && sportComplexProps.createdById == user?.id || user?.roles.includes('Admin') ? (
                   <Segment clearing attached='bottom'>
                   <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
                   <Button as={Link} to={`/update/sportcomplexes/${sportComplexProps.id}`} color='pink' content='Edit'>

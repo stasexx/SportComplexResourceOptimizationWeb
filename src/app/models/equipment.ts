@@ -3,4 +3,9 @@ export interface Equipment {
     name: string
     equipmentStatus: boolean
   }
+
+  export interface EquipmentWithouStatus {
+    name: string
+  }
+  
   

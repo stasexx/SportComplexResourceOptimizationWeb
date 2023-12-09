@@ -1,0 +1,33 @@
+{
+    "navbar": {
+      "home": "Головна",
+      "sportsComplexes": "Спортивні комплекси",
+      "newSportComplex": "Новий спортивний комплекс",
+      "viewMySportComplexes": "Переглянути мої спортивні комплекси",
+      "myStatistic": "Моя статистика",
+      "login": "Увійти",
+      "signUp": "Зареєструватися",
+      "myProfile": "Мій профіль",
+      "logout": "Вийти",
+      "reservation": "Мої Бронювання",
+      "export": "Експортувати данні",
+      "users": "Користувачі"
+    },
+    "sportComplexList":{
+      "view" : "Переглянути",
+      "delete" : "Видалити"
+    },
+    "equipmentList":{
+      "equipment": "Обладнання",
+      "busy" : "Зайнято",
+      "free" : "Вільно",
+      "statistic": "Статистика",
+      "createReservation": "Забронювати",
+      "update": "Редагувати",
+      "delete": "Видалити"
+    },
+    "userList":{
+      "ban" : "Заблокувати"
+    }
+  }
+  

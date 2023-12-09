@@ -7,5 +7,6 @@ export interface SportComplex {
     description: string
     operatingHours: string
     rating: number
+    createdById: string
   }
   

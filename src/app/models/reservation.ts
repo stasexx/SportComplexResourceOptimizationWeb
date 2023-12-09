@@ -6,4 +6,11 @@ export interface Reservation {
     userId: string
   }
   
+export interface UserReservations {
+    startReservation: string
+    duration: number
+    endReservation: string
+    equipmentName: string
+  }
+  
   

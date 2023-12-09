@@ -1,0 +1,33 @@
+{
+    "navbar": {
+      "home": "Home",
+      "sportsComplexes": "Sports complexes",
+      "newSportComplex": "New Sport Complex",
+      "viewMySportComplexes": "View My Sport Complexes",
+      "myStatistic": "My Statistic",
+      "login": "Login",
+      "signUp": "Sign Up",
+      "myProfile": "My Profile",
+      "logout": "Logout",
+      "reservation": "My Reservation",
+      "export": "Export Data",
+      "users": "Users"
+    },
+    "sportComplexList":{
+      "view" : "View",
+      "delete" : "Delete"
+    },
+    "equipmentList":{
+      "equipment": "Equipment",
+      "busy" : "Busy",
+      "free" : "Free",
+      "statistic": "Statistic",
+      "createReservation": "Create Reservation",
+      "update": "Update",
+      "delete": "Delete"
+    },
+    "userList":{
+      "ban" : "Ban"
+    }
+  }
+  

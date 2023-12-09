@@ -18,3 +18,12 @@ export interface UserFormValues {
   firstName?: string;
   lastName?: string;
 }
+
+export interface UserList {
+  id: string
+  roles: Role[]
+  phone: string
+  email: string
+  passwordHash: string
+  isDeleted: boolean
+}

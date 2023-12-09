@@ -1,16 +1,14 @@
 import { Button, Form, Segment } from "semantic-ui-react";
 import { useState, ChangeEvent, useEffect } from "react";
-import { Formik } from "formik";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { SportComplex } from "../../../app/models/sportcomplex";
+import { useNavigate, useParams } from "react-router-dom";
 import LoadingComponents from "../../../app/layout/LoadingComponents";
 
 
 export default observer (function SportComplexForm()
 {
-    const {sportComplexStore} = useStore();
+    const {sportComplexStore, userStore} = useStore();
     const {selectedSportComplex, createSportComplex, updateSportComplex, loading,
         loadSportComplex, loadingInitial} = sportComplexStore;
     const {id} = useParams();
@@ -24,6 +22,7 @@ export default observer (function SportComplexForm()
         address: '',
         description: '',
         operatingHours: '',
+        createdById: '',
         rating: 0
     });
 
@@ -34,7 +33,7 @@ export default observer (function SportComplexForm()
     function handleSubmit()
     {
         if(!sportComplex.id){
-            createSportComplex(sportComplex).then(() => navigate(`/sportcomplexes/${sportComplex.id}`))
+            createSportComplex(sportComplex, userStore.user?.id).then(() => navigate(`/sportcomplexes/${sportComplex.id}`))
         } else {
             updateSportComplex(sportComplex).then(() => navigate(`/sportcomplexes/${sportComplex.id}`))
         }

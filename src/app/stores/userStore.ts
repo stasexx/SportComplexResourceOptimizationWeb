@@ -1,18 +1,21 @@
 import agent from "../api/agent";
-import { User, UserFormValues } from "../models/user";
+import { User, UserFormValues, UserList } from "../models/user";
 import {makeAutoObservable, runInAction} from 'mobx'
 import { store } from "./store";
 import { router } from "../router/Routes";
 
 export default class UserStore {
     user: User | null = null;
+    users: UserList[] = [];
+    loading = false;
+    loadingInitial = false;
 
     constructor(){
         makeAutoObservable(this)
     }
 
     get isLoggedIn(){
-        return !!this.user;
+        return !! this.user;
     }
 
     login = async (creds: UserFormValues) =>{
@@ -47,6 +50,39 @@ export default class UserStore {
             throw error;
         }
 
+    }
+
+    loadUsers = async () => {
+        this.setLoadingInitial(true);
+        try{
+            const usersLocal = await agent.Users.list();
+            runInAction(()=>{
+                this.users = usersLocal;
+            })
+            console.log("ARR:", this.users);
+            this.setLoadingInitial(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoadingInitial(false);
+        }
+    }
+
+    ban = async (id: string) => {
+        try {
+          await agent.Account.ban(id);
+          runInAction(() => {
+            const updatedUsers = this.users.map((user) =>
+              user.id === id ? { ...user, isDeleted: true } : user
+            );
+            this.users = updatedUsers;
+          });
+        } catch (error) {
+          console.error("Error banning user", error);
+        }
+      };
+
+    setLoadingInitial = (state: boolean) => {
+        this.loadingInitial = state;
     }
 
     logout = () => {
