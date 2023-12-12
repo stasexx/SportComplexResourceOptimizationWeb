@@ -15,7 +15,13 @@
     },
     "sportComplexList":{
       "view" : "Переглянути",
-      "delete" : "Видалити"
+      "delete" : "Видалити",
+      "manage" : "Редагувати спорткомплекс",
+      "viewServices" : "Переглянути сервіси",
+      "description": "Опис",
+      "operatingHours": "Години праці",
+      "rating": "Рейтинг",
+      "address" : "Адреса"
     },
     "equipmentList":{
       "equipment": "Обладнання",
@@ -26,8 +32,29 @@
       "update": "Редагувати",
       "delete": "Видалити"
     },
+    "serviceList":{
+      "viewEquipment" : "Переглнути обладнання",
+      "services": "Сервіси",
+      "statistic": "Статистика",
+      "createService" : "Створити сервіс",
+      "update": "Оновити",
+      "delete": "Видалити"
+    },
+    "reservation":{
+      "title" : "Оберіть час для бронювання",
+      "startTine": "Початок часу",
+      "endTime": "Кінець часу",
+      "selectDuration" : "Оберіть тривалість",
+      "selectReservationSlots": "Оберіть слот для бронювання",
+      "load": "Завантажити доступні слоти для бронювання"
+    },
+    "login":{
+      "email" : "Електронна адреса",
+      "password" : "Пароль"
+    },
     "userList":{
-      "ban" : "Заблокувати"
+      "ban" : "Заблокувати",
+      "unban" : "Розблокувати"
     }
   }
   

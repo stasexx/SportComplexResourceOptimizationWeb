@@ -3,6 +3,7 @@ import { Modal, Button, Dropdown, Input } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import moment from 'moment';
+import { useTranslation } from "react-i18next";
 
 export default observer(function ReservationModal({
   open,
@@ -21,6 +22,7 @@ export default observer(function ReservationModal({
   const [resultStartTime, setResultStartTime] = useState<string>("");
   const [resultEndTime, setResultEndTime] = useState<string>("");
   const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
+  const { t } = useTranslation();
 
 
   const handleConfirm = async () => {
@@ -108,7 +110,7 @@ export default observer(function ReservationModal({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Modal.Header>Select Reservation Time</Modal.Header>
+      <Modal.Header>{t('reservation.tittle')}</Modal.Header>
       <Modal.Content>
         <Input
           type="time"

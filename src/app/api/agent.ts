@@ -78,7 +78,8 @@ const Account = {
     current: () => requests.get('/users/get'),
     login: (user: UserFormValues) => requests.post<User>('/users/login', user),
     register: (user: UserFormValues) => requests.post<User>('users/register', user),
-    ban: (id: string) => requests.delete(`/users/ban/${id}`)
+    ban: (id: string) => requests.delete(`/users/ban/${id}`),
+    unban: (id: string) => requests.postUrl(`/users/unban/${id}`)
 }
 
 const Statistic = {

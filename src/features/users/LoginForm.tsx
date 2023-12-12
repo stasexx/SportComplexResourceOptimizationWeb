@@ -3,10 +3,12 @@ import MyTextInput from "../../app/common/MyTextInput";
 import { Button, Label } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 
 
 export default observer (function LoginForm() {
     const {userStore} = useStore();
+    const { t } = useTranslation();
 
     return (
         <Formik 
@@ -16,13 +18,13 @@ export default observer (function LoginForm() {
         >
             {({handleSubmit, isSubmitting, errors}) => (
                 <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                    <MyTextInput placeholder="Email" name="email"/>
-                    <MyTextInput placeholder="Password" name="password" type="password"/>
+                    <MyTextInput placeholder={t('login.email')} name="email"/>
+                    <MyTextInput placeholder={t('login.password')} name="password" type="password"/>
                     <ErrorMessage
                         name='error' render={() => 
                         <Label style={{marginBottom: 10}} basic color="red" content={errors.error}/>}
                     />
-                    <Button loading={isSubmitting} positive content = 'Login' type="submit" fluid/>
+                    <Button loading={isSubmitting} positive content = {t('navbar.login')} type="submit" fluid/>
                 </Form>
             )}
         </Formik>

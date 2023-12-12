@@ -5,11 +5,19 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
 import { exportToCsv } from '../../app/api/agent';
+import { useEffect } from 'react';
 
 export default observer(function NavBar()
 {
-    const {userStore: {user, logout,isLoggedIn}} = useStore();
+    const {userStore: {user, logout,isLoggedIn, getUser}} = useStore();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        // Ensure user data is loaded after a refresh
+        if (isLoggedIn && !user) {
+            getUser();
+        }
+      }, [isLoggedIn, user, getUser]);
 
     return (
         <Menu inverted fixed='top'>

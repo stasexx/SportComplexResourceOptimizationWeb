@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export default observer(function UserList() {
-  const { userStore: { user, users, isLoggedIn, ban } } = useStore();
+  const { userStore: { user, users, isLoggedIn, ban, unban } } = useStore();
 
   const [searchName, setSearchName] = useState('');
   const [searchId, setSearchId] = useState('');
@@ -20,6 +20,10 @@ export default observer(function UserList() {
 
   const handleBanClick = (userId: string) => {
     ban(userId);
+  };
+
+  const handleUnbanClick = (userId: string) => {
+    unban(userId);
   };
 
   return (
@@ -49,12 +53,21 @@ export default observer(function UserList() {
                 <div>Status: {user.isDeleted.toString()}</div>
               </Item.Description>
               <Item.Extra>
-                <Button
-                  floated='right'
-                  content={t('userList.ban')}
-                  color='red'
-                  onClick={() => handleBanClick(user.id)}
-                />
+                {user.isDeleted ? (
+                  <Button
+                    floated='right'
+                    content={t('userList.unban')}
+                    color='green'
+                    onClick={() => handleUnbanClick(user.id)}
+                  />
+                ) : (
+                  <Button
+                    floated='right'
+                    content={t('userList.ban')}
+                    color='red'
+                    onClick={() => handleBanClick(user.id)}
+                  />
+                )}
               </Item.Extra>
             </Item.Content>
           </Item>

@@ -5,6 +5,7 @@ import {SportComplex} from "../../../app/models/sportcomplex";
 import { useStore } from '../../../app/stores/store';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const sportComlplexImageStyle = {
     filter: 'brightness(90%)'
@@ -38,9 +39,17 @@ interface Props {
 export default observer (function ActivityDetailedHeader({sportComplexProps}: Props) {
     const {userStore: {user, logout,isLoggedIn}} = useStore();
     const {sportComplexStore} = useStore();
-    const {selectedSportComplex: sportComplex, loadSportComplex, loadingInitial} = sportComplexStore;
+    const {selectedSportComplex: sportComplex, loadSportComplex, loadingInitial, deleteSportComplex} = sportComplexStore;
     const [imageUrl, setImageUrl] = useState<string>('');
     const {id} = useParams()
+
+    const { t } = useTranslation();
+
+    const handleDeleteSportComplex = () => {
+      if (user && user.roles.includes('Owner')) {
+        deleteSportComplex(sportComplex?.id)
+      }
+    };
 
     useEffect(() => {
       if (id) {
@@ -81,9 +90,9 @@ export default observer (function ActivityDetailedHeader({sportComplexProps}: Pr
                                     content={sportComplexProps.name}
                                     style={{color: 'white'}}
                                 />
-                                <p>Rating: {sportComplexProps.rating}</p>
+                                <p>{t('sportComplexList.rating')}: {sportComplexProps.rating}</p>
                                 <p>
-                                    Address <strong>{sportComplexProps.city}, {sportComplexProps.address}</strong>
+                                {t('sportComplexList.address')} <strong>{sportComplexProps.city}, {sportComplexProps.address}</strong>
                                 </p>
                             </Item.Content>
                         </Item>
@@ -93,30 +102,31 @@ export default observer (function ActivityDetailedHeader({sportComplexProps}: Pr
             {isLoggedIn ? (
                 user?.roles.includes('Owner') && sportComplexProps.createdById == user?.id || user?.roles.includes('Admin') ? (
                   <Segment clearing attached='bottom'>
-                  <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
+                  <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>{t('sportComplexList.viewServices')}</Button>
                   <Button as={Link} to={`/update/sportcomplexes/${sportComplexProps.id}`} color='pink' content='Edit'>
-                      Manage Sport Complex
+                  {t('sportComplexList.manage')}
                   </Button>
+                  <Button color='red' onClick={handleDeleteSportComplex}>{t('sportComplexList.delete')} </Button>
               </Segment>
                 ) : (
                     user?.roles.includes('User') ? (
                       <Segment clearing attached='bottom'>
-                      <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
+                      <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>{t('sportComplexList.viewServices')}</Button>
                   </Segment>
                         ) : null
                     )
                 ) : (
                   <Segment clearing attached='bottom'>
-                  <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>View Services</Button>
+                  <Button as={Link} to={`/sportcomplexes/${sportComplexProps.id}/services`} color='teal'>{t('sportComplexList.viewServices')}</Button>
               </Segment>
                 )}
                 
             <Segment clearing attached='bottom'>
                 <p>
-                    Description: <strong>{sportComplexProps.description}</strong>
+                {t('sportComplexList.description')}: <strong>{sportComplexProps.description}</strong>
                 </p>
                 <p>
-                    Operating Hours: <strong>{sportComplexProps.operatingHours}</strong>
+                {t('sportComplexList.operatingHours')}: <strong>{sportComplexProps.operatingHours}</strong>
                 </p>
             </Segment>
 

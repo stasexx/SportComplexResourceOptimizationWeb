@@ -81,6 +81,20 @@ export default class UserStore {
         }
       };
 
+      unban = async (id: string) => {
+        try {
+          await agent.Account.unban(id);
+          runInAction(() => {
+            const updatedUsers = this.users.map((user) =>
+              user.id === id ? { ...user, isDeleted: false } : user
+            );
+            this.users = updatedUsers;
+          });
+        } catch (error) {
+          console.error("Error banning user", error);
+        }
+      };
+
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     }

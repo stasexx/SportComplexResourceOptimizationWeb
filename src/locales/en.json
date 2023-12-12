@@ -15,7 +15,13 @@
     },
     "sportComplexList":{
       "view" : "View",
-      "delete" : "Delete"
+      "delete" : "Delete",
+      "manage" : "Manage Sport Complex",
+      "viewServices" : "View Services",
+      "description": "Description",
+      "operatingHours": "Operating Hours",
+      "rating": "Rating",
+      "address" : "Address"
     },
     "equipmentList":{
       "equipment": "Equipment",
@@ -23,11 +29,37 @@
       "free" : "Free",
       "statistic": "Statistic",
       "createReservation": "Create Reservation",
+      "createEquipment" : "Create Equipment",
       "update": "Update",
       "delete": "Delete"
     },
+    "serviceList":{
+      "viewEquipment" : "View Equipment",
+      "services": "Services",
+      "statistic": "Statistic",
+      "createService" : "Create Service",
+      "update": "Update",
+      "delete": "Delete"
+    },
+    "reservation":{
+      "tittle" : "Select Reservation Time",
+      "startTine": "Strat Time",
+      "endTime": "End Time",
+      "selectDuration" : "Select Duration",
+      "selectReservationSlots": "Select Reservation Slots",
+      "load": "Load Reservation Slots"
+    },
     "userList":{
-      "ban" : "Ban"
+      "ban" : "Ban",
+      "unban" : "Unban"
+    },
+    "login":{
+      "email" : "Email",
+      "password" : "Password"
+    },
+    "buttons":{
+      "searchByName" : "Search by name",
+      "searchById" : "Search by id"
     }
   }
   
