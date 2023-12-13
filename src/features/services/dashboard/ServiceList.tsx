@@ -30,6 +30,13 @@ export default observer(function ServiceList() {
                 <>
                   <Button as={Link} to={`/sportcomplexes/${id}/services/${service.id}/serviceUsage/${service.id}`} floated="right" content={t('serviceList.statistic')} color="pink" />
                   <Button as={Link} to={`/sportcomplexes/${id}/services/${service.id}/update`} floated="right" content={t('serviceList.update')} color="orange" />
+                  {userStore.isLoggedIn && (userStore.user?.roles.includes('Owner') || userStore.user?.roles.includes('Admin')) && (
+                <Button
+                  floated="right"
+                  content={t('equipmentList.delete')}
+                  color="red"
+                />
+              )}
                 </>
               )}
 

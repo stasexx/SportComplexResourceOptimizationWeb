@@ -54,8 +54,8 @@ export default observer(function NavBar()
                                 <Dropdown.Item onClick={() => exportToCsv('Users')}>Users</Dropdown.Item>
                                 <Dropdown.Item onClick={() => exportToCsv('SportComplexes')}>SportComplexes</Dropdown.Item>
                                 <Dropdown.Item onClick={() => exportToCsv('Services')}>Services</Dropdown.Item>
-                                <Dropdown.Item onClick={() => exportToCsv('Equipments')}>Services</Dropdown.Item>
-                                <Dropdown.Item onClick={() => exportToCsv('Reservations')}>Services</Dropdown.Item>
+                                <Dropdown.Item onClick={() => exportToCsv('Equipments')}>Equipments</Dropdown.Item>
+                                <Dropdown.Item onClick={() => exportToCsv('Reservations')}>Reservations</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Menu.Item>
