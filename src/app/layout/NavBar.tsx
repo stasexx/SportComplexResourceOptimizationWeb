@@ -16,7 +16,10 @@ export default observer(function NavBar()
         // Ensure user data is loaded after a refresh
         if (isLoggedIn && !user) {
             getUser();
+            console.log(user)
         }
+        console.log("If not: " + user?.roles.length + isLoggedIn)
+
       }, [isLoggedIn, user, getUser]);
 
     return (
@@ -30,12 +33,12 @@ export default observer(function NavBar()
                     {t('navbar.sportsComplexes')}
                 </Menu.Item>
                 {isLoggedIn ? (
-                user?.roles.includes('Owner') ? (
+                user && user.roles.some(role => role.name === 'Owner' || role.name === 'Admin') ? (
                     <Menu.Item>
                         <Button as={NavLink} to='/create/sportcomplexes' color='pink' content={t('navbar.newSportComplex')} style={{ marginRight: '40px' }} />
                     </Menu.Item>
                 ) : (
-                    user?.roles.includes('User') ? (
+                    user?.roles.some(role=> role.name == 'User') ? (
                         <Menu.Item>
                             <Button as={NavLink} to={`statistic/userUsages/${user.id}`} color='blue' content={t('navbar.myStatistic')} />
                         </Menu.Item>
@@ -46,7 +49,7 @@ export default observer(function NavBar()
                         
                     </Menu.Item>
                 )}
-                {isLoggedIn && user?.roles.includes('Admin') && (
+                {isLoggedIn && user?.roles.some(role => role.name === 'Admin') && (
                     <Menu.Item>
                         <Button as={NavLink} to={'/users'} color='orange' style={{ marginRight: '40px' }} content={t('navbar.users')} />
                         <Dropdown text={t('navbar.export')} pointing='top left'>

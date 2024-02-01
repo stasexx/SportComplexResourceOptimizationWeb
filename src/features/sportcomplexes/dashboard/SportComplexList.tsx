@@ -54,7 +54,7 @@ export default observer(function SportComplexList() {
                                 <div>{sportComplex.city}, {sportComplex.address}</div>
                             </Item.Description>
                             {isLoggedIn ? (
-                                user?.roles.includes('Admin') ? (
+                                user?.roles.some(role=> role.name == 'Admin') ? (
                                     <Item.Extra>
                                 <Button as={Link} to={`/sportcomplexes/${sportComplex.id}`} floated='right' content={t('sportComplexList.view')} color='blue' />
                                 <Button 
@@ -68,7 +68,7 @@ export default observer(function SportComplexList() {
                                 <Label basic content = {sportComplex.rating}/>
                             </Item.Extra>
                             ) : (
-                                user?.roles.includes('User') || user?.roles.includes('Owner') ? (
+                                user?.roles.some(role=> role.name == 'User' || role.name == 'Owner') ? (
                                     <Item.Extra>
                                 <Button as={Link} to={`/sportcomplexes/${sportComplex.id}`} floated='right' content={t('sportComplexList.view')} color='blue'/>
                             </Item.Extra>
